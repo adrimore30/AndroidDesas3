@@ -42,7 +42,7 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "DESAS3",
+                text = "Iniciar sesión",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -50,26 +50,26 @@ fun LoginScreen(navController: NavController) {
             )
 
             Text(
-                text = "Ingrese su correo electrónico y contraseña a continuación para iniciar sesión",
+                text = "Escribe tu correo y contraseña",
                 fontSize = 14.sp,
                 color = Color(0xFFCCCCCC),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 40.dp)
+                modifier = Modifier.padding(bottom = 24.dp)
             )
 
+            // Correo
             Text(
-                text = "Correo electrónico",
+                text = "Correo",
                 fontSize = 16.sp,
                 color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             )
-
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                placeholder = { Text("correoejemplo@gmail.com", color = Color(0xFF888888)) },
+                placeholder = { Text("tucorreo@gmail.com", color = Color(0xFF888888)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF666666),
@@ -84,6 +84,7 @@ fun LoginScreen(navController: NavController) {
                     .padding(bottom = 20.dp)
             )
 
+            // Contraseña
             Text(
                 text = "Contraseña",
                 fontSize = 16.sp,
@@ -92,18 +93,17 @@ fun LoginScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             )
-
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                placeholder = { Text("Contraseña", color = Color(0xFF888888)) },
+                placeholder = { Text("********", color = Color(0xFF888888)) },
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = if (passwordVisible) "Ocultar contraseña" else "Mostrar contraseña",
+                            contentDescription = null,
                             tint = Color.White
                         )
                     }
@@ -118,13 +118,14 @@ fun LoginScreen(navController: NavController) {
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 12.dp)
             )
 
+            // Recordarme y ¿Olvidaste tu clave?
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 30.dp),
+                    .padding(bottom = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -133,42 +134,47 @@ fun LoginScreen(navController: NavController) {
                         checked = rememberMe,
                         onCheckedChange = { rememberMe = it },
                         colors = CheckboxDefaults.colors(
-                            checkedColor = Color(0xFF4A90E2),
+                            checkedColor = Color(0xFFFFD500),
                             uncheckedColor = Color.White
                         )
                     )
-                    Text(
-                        text = "Recuérdame",
-                        color = Color.White,
-                        fontSize = 14.sp
-                    )
+                    Text("Recordarme", color = Color.White, fontSize = 14.sp)
                 }
 
                 Text(
-                    text = "¿Olvidaste tu contraseña?",
-                    color = Color(0xFF4A90E2),
+                    text = "¿Olvidaste tu clave?",
+                    color = Color(0xFFFFD500),
                     fontSize = 14.sp,
                     modifier = Modifier.clickable {
-                        // Acción para recuperar contraseña
+                        // Acción de recuperar clave
                     }
                 )
             }
 
+            // Botón Entrar
             Button(
                 onClick = {
-                    navController.navigate("home")
+                    navController.navigate("home") // o la vista principal
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4A90E2)),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD500)),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp)
-                    .padding(bottom = 30.dp)
+                    .height(60.dp)
             ) {
+                Text("Entrar", color = Color.Black, fontSize = 16.sp)
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row {
+                Text("¿No tienes cuenta? ", color = Color.White)
                 Text(
-                    text = "Iniciar sesión",
-                    color = Color.White,
-                    fontSize = 16.sp
+                    text = "Regístrate",
+                    color = Color(0xFFFFD500),
+                    modifier = Modifier.clickable {
+                        navController.navigate("register")
+                    }
                 )
             }
         }
