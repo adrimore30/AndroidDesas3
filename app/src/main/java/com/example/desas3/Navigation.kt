@@ -15,7 +15,7 @@ fun AppNavigation(navController: NavHostController) {
             RegisterScreen(navController)
         }
         composable("home") {
-            HomeScreen() // o la pantalla principal después del login
+            HomeScreen(navController) // o la pantalla principal después del login
         }
     }
 }

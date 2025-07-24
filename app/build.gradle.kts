@@ -43,6 +43,8 @@ dependencies {
     // Coil para carga de imágenes
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    implementation("androidx.compose.material3:material3:1.1.2") // o más reciente
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
