@@ -19,6 +19,9 @@ class MainActivity : ComponentActivity() {
                     // 1. Crea el controlador de navegación
                     val navController = rememberNavController()
 
+
+
+
                     // 2. Aquí se coloca el NavHost que contiene las pantallas
                     NavHost(
                         navController = navController,
@@ -34,9 +37,12 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             HomeScreen(navController)
                         }
+
                     }
                 }
             }
         }
     }
 }
+
+

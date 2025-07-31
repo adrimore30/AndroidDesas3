@@ -22,9 +22,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
@@ -59,7 +61,7 @@ fun RegisterScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                "REGISTRO",
+                "Registrate",
                 fontSize = 32.sp,
                 color = Color.White
             )
@@ -157,7 +159,7 @@ fun RegisterScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD500)),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("REGISTRARSE")
+                Text("Registrate")
             }
 
             // Enlace para volver a login
@@ -172,4 +174,11 @@ fun RegisterScreen(navController: NavController) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun RegisterScrennPreview(){
+    val navController = rememberNavController()
+    RegisterScreen(navController)
 }
