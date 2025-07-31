@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.foundation.Image
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,6 +32,7 @@ fun LoginScreen(navController: NavController) {
     var passwordVisible by remember { mutableStateOf(false) }
     var rememberMe by remember { mutableStateOf(false) }
 
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -37,6 +40,16 @@ fun LoginScreen(navController: NavController) {
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
+
+        // Imagen del logo
+        Image(
+            painter = painterResource(id = R.drawable.logochico), // Asegúrate de que el nombre sea correcto
+            contentDescription = null,
+            modifier = Modifier
+                .size(68.dp) // Cambia el tamaño según sea necesario
+                .align(Alignment.TopCenter) // Alinea la imagen en la parte superior
+                .padding(bottom = 10.dp) // Espaciado inferior para evitar solapamiento
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -157,12 +170,37 @@ fun LoginScreen(navController: NavController) {
                     navController.navigate("home") // o la vista principal
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD500)),
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .height(50.dp)
             ) {
                 Text("Entrar", color = Color.Black, fontSize = 16.sp)
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Botón de inicio de sesión con Gmail
+            Button(
+                onClick = {
+                    // Lógica para iniciar sesión con Google
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    // Usa el ícono de Google que descargaste
+                    Image(
+                        painter = painterResource(id = R.drawable.google_logo), // Asegúrate de que el nombre sea correcto
+                        contentDescription = "Iniciar sesión con Google",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Iniciar sesión con Google", color = Color.Black, fontSize = 16.sp)
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))
