@@ -37,6 +37,9 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             HomeScreen()
                         }
+                        composable("Perfil") {
+                            PerfilUsuarioCompacto()
+                        }
 
                     }
                 }
