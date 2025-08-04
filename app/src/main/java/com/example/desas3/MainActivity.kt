@@ -20,8 +20,6 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
 
-
-
                     // 2. Aquí se coloca el NavHost que contiene las pantallas
                     NavHost(
                         navController = navController,
