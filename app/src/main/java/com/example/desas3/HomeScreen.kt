@@ -87,8 +87,30 @@ fun HomeScreen(navController: NavController) {
 
         // Logos de organismos de respuesta
         ResponseEntitiesRow()
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // 🔵 Botón para ir al perfil de usuario
+        Button(
+            onClick = { navController.navigate("perfil") }, // Asegúrate de que esta ruta exista en tu NavHost
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF2C3E50),
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = "Ver Perfil de Usuario",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
     }
 }
+
 
 @Composable
 fun DisasterIconsRow(
