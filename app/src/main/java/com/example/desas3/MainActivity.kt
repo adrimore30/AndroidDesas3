@@ -37,6 +37,9 @@ class MainActivity : ComponentActivity() {
                         composable("Perfil") {
                             PerfilUsuarioCompacto(navController)
                         }
+                        composable("chat") {
+                            Desas3Chat(navController)
+                        }
                     }
                 }
             }
