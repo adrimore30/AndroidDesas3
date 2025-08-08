@@ -8,17 +8,11 @@ import androidx.navigation.compose.composable
 @Composable
 fun AppNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "login") {
-        composable("login") {
-            LoginScreen(navController)
-        }
-        composable("register") {
-            RegisterScreen(navController)
-        }
-        composable("home") {
-            HomeScreen(navController) // o la pantalla principal después del login
-        }
-        composable("Perfil") {
-            PerfilUsuarioCompacto(navController)
-        }
+        composable("login") { LoginScreen(navController) }
+        composable("register") { RegisterScreen(navController) }
+        composable("home") { HomeScreen(navController) }
+        composable("perfil") { PerfilUsuarioCompacto(navController) }
+        composable("chat") { Desas3Chat(navController) }
+        composable("publicar") { PublicationScreen(navController) }
     }
 }

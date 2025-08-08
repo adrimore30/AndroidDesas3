@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.desas3.R
 
 // Modelo de publicación
@@ -33,7 +34,7 @@ data class Publicacion(
 
 // Pantalla principal de publicaciones
 @Composable
-fun PublicationScreen() {
+fun PublicationScreen(navController: NavHostController) {
     val publicaciones = remember { mutableStateListOf<Publicacion>() }
 
     Column(

@@ -16,104 +16,193 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.foundation.Image
 
+
+// Colores del sistema
+val YinMinBlue = Color(0xFF385B8A)
+val Gold = Color(0xFFFFD700)
+val RedCKIYK = Color(0xFFF02020)
+val Sessal = Color(0xFFF9FAFB)
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
     var selectedDisaster by remember { mutableStateOf<String?>(null) }
+    var showMenu by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF8F9FA)) // Fondo claro profesional
-            .padding(24.dp)
-    ) {
-        // Barra superior con nombre de usuario y menú
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Paul S.Harvel",
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = Color(0xFF2C3E50), // Azul oscuro profesional
-                    fontWeight = FontWeight.Bold
-                )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Paul S.Harvel",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = YinMinBlue,
+                    actionIconContentColor = Gold
+                ),
+                actions = {
+                    IconButton(onClick = { showMenu = !showMenu }) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Menú"
+                        )
+                    }
+                }
             )
-
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menú",
-                tint = Color(0xFF2C3E50),
+        },
+        content = { innerPadding ->
+            Column(
                 modifier = Modifier
-                    .size(40.dp) // Ícono más grande
-                    .clickable { /* Mostrar menú/drawer */ }
-            )
+                    .fillMaxSize()
+                    .background(Sessal)
+                    .padding(innerPadding)
+                    .padding(24.dp)
+            ) {
+                // Sección de iconos de desastres
+                DisasterIconsRow(navController, selectedDisaster) { disaster ->
+                    selectedDisaster = disaster
+                    navController.navigate("chat")
+                }
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                // Botón de informe
+                Button(
+                    onClick = { navController.navigate("reportar") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = RedCKIYK,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
+                ) {
+                    Text(
+                        "INFORMAR EMERGENCIA",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.2.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                // Logos de organismos de respuesta
+                ResponseEntitiesRow()
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Botón para ir al perfil de usuario
+                OutlinedButton(
+                    onClick = { navController.navigate("perfil") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = YinMinBlue,
+                        containerColor = Sessal
+                    ),
+                    border = ButtonDefaults.outlinedButtonBorder.copy(width = 2.dp),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = "Ver Perfil de Usuario",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+            }
         }
+    )
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        // Sección de iconos de desastres
-        DisasterIconsRow(selectedDisaster) { disaster ->
-            selectedDisaster = disaster
-        }
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        // Botón de informe
-        Button(
-            onClick = { /* Acción de informe */ },
+    // Menú desplegable
+    if (showMenu) {
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp), // Botón más alto
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF3498DB), // Azul profesional
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(16.dp), // Bordes más redondeados
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 8.dp // Sombra para efecto 3D
-            )
+                .background(Color.White)
+                .width(280.dp)
         ) {
-            Text("INFORMAR",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 1.2.sp
+            DropdownMenuItem(
+                text = { Text("Tipo de Emergencia", color = YinMinBlue, fontWeight = FontWeight.Bold) },
+                onClick = {}
             )
-        }
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        // Logos de organismos de respuesta
-        ResponseEntitiesRow()
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // 🔵 Botón para ir al perfil de usuario
-        Button(
-            onClick = { navController.navigate("perfil") }, // Asegúrate de que esta ruta exista en tu NavHost
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF2C3E50),
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text(
-                text = "Ver Perfil de Usuario",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
+            listOf("Tormenta", "Incendio", "Inundación", "Avalancha").forEach { emergency ->
+                DropdownMenuItem(
+                    text = { Text(emergency, color = YinMinBlue) },
+                    onClick = {
+                        showMenu = false
+                        selectedDisaster = emergency
+                        navController.navigate("chat")
+                    }
+                )
+            }
+            Divider(color = YinMinBlue.copy(alpha = 0.2f))
+            DropdownMenuItem(
+                text = { Text("INFORMAR EMERGENCIA", color = RedCKIYK, fontWeight = FontWeight.Bold) },
+                onClick = {
+                    showMenu = false
+                    navController.navigate("reportar")
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Publicar Emergencia", color = YinMinBlue, fontWeight = FontWeight.Bold) },
+                onClick = {
+                    showMenu = false
+                    navController.navigate("publicar")
+                }
+            )
+            Divider(color = YinMinBlue.copy(alpha = 0.2f))
+            DropdownMenuItem(
+                text = { Text("Organismos de Respuesta", color = YinMinBlue, fontWeight = FontWeight.Bold) },
+                onClick = {}
+            )
+            listOf("Defensa Civil", "Bomberos", "ONEMI", "Cruz Roja").forEach { entity ->
+                DropdownMenuItem(
+                    text = { Text(entity, color = YinMinBlue) },
+                    onClick = { showMenu = false }
+                )
+            }
+            Divider(color = YinMinBlue.copy(alpha = 0.2f))
+            DropdownMenuItem(
+                text = { Text("Inicio", color = YinMinBlue) },
+                onClick = {
+                    showMenu = false
+                    navController.navigate("home")
+                }
+            )
+            DropdownMenuItem(
+                text = { Text("Ver Perfil", color = YinMinBlue) },
+                onClick = {
+                    showMenu = false
+                    navController.navigate("perfil")
+                }
+            )
+            Divider(color = YinMinBlue.copy(alpha = 0.2f))
+            DropdownMenuItem(
+                text = { Text("Cerrar Sesión", color = RedCKIYK, fontWeight = FontWeight.Bold) },
+                onClick = {
+                    showMenu = false
+                    navController.navigate("login")
+                }
             )
         }
     }
 }
 
-
 @Composable
 fun DisasterIconsRow(
+    navController: NavController,
     selectedDisaster: String?,
     onDisasterSelected: (String) -> Unit
 ) {
@@ -124,36 +213,34 @@ fun DisasterIconsRow(
         "Avalancha" to R.drawable.ic_avalanche
     )
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Tipos de Emergencia",
-            color = Color(0xFF2C3E50),
-            fontSize = 18.sp,
+            color = YinMinBlue,
+            fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 20.dp)
         )
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             disasters.forEach { (disaster, iconRes) ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .clickable { onDisasterSelected(disaster) }
+                        .clickable {
+                            onDisasterSelected(disaster)
+                            navController.navigate("chat")
+                        }
                         .padding(12.dp)
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(72.dp) // Logos mucho más grandes
+                            .size(72.dp)
                             .background(
-                                color = if (selectedDisaster == disaster) Color(0xFFE3F2FD)
+                                color = if (selectedDisaster == disaster) YinMinBlue.copy(alpha = 0.1f)
                                 else Color.Transparent,
                                 shape = RoundedCornerShape(16.dp)
                             )
@@ -163,18 +250,18 @@ fun DisasterIconsRow(
                         Icon(
                             painter = painterResource(id = iconRes),
                             contentDescription = disaster,
-                            tint = if (selectedDisaster == disaster) Color(0xFF3498DB)
-                            else Color(0xFF7F8C8D), // Gris azulado
+                            tint = if (selectedDisaster == disaster) YinMinBlue
+                            else YinMinBlue.copy(alpha = 0.7f),
                             modifier = Modifier.size(48.dp)
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = disaster,
-                        color = if (selectedDisaster == disaster) Color(0xFF3498DB)
-                        else Color(0xFF2C3E50),
-                        fontSize = 16.sp, // Texto más grande
-                        fontWeight = FontWeight.Medium
+                        color = if (selectedDisaster == disaster) YinMinBlue
+                        else YinMinBlue.copy(alpha = 0.9f),
+                        fontSize = 16.sp,
+                        fontWeight = if (selectedDisaster == disaster) FontWeight.Bold else FontWeight.Medium
                     )
                 }
             }
@@ -191,50 +278,38 @@ fun ResponseEntitiesRow() {
         "ONEMI" to R.drawable.ic_onemi
     )
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Organismos de Respuesta",
-            color = Color(0xFF2C3E50),
-            fontSize = 18.sp,
+            color = YinMinBlue,
+            fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 20.dp)
         )
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             entities.forEach { (entity, iconRes) ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(12.dp)
-                ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(12.dp)) {
                     Box(
                         modifier = Modifier
-                            .size(80.dp) // Logos institucionales más grandes
-                            .background(
-                                color = Color(0xFFE3F2FD),
-                                shape = RoundedCornerShape(16.dp)
-                            )
+                            .size(80.dp)
+                            .background(color = Color.Transparent, shape = RoundedCornerShape(16.dp))
                             .padding(16.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
+                        Image(
                             painter = painterResource(id = iconRes),
                             contentDescription = entity,
-                            tint = Color(0xFF2C3E50),
                             modifier = Modifier.size(48.dp)
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = entity,
-                        color = Color(0xFF2C3E50),
+                        color = YinMinBlue,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )

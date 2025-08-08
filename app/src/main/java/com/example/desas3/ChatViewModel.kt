@@ -11,14 +11,26 @@ class ChatViewModel : ViewModel() {
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages: StateFlow<List<ChatMessage>> = _messages
 
-    fun sendMessage(message: String) {
+    // Respuestas predefinidas basadas en el tipo de emergencia
+    private val emergencyResponses = mapOf(
+        "Tormenta" to "Estamos monitoreando la tormenta. ¿Puedes describir la situación actual?",
+        "Incendio" to "Reporte de incendio recibido. ¿Hay personas en peligro?",
+        "Inundación" to "Alerta de inundación. ¿Qué nivel de agua estás observando?",
+        "Avalancha" to "Emergencia por avalancha. ¿Puedes indicar tu ubicación exacta?"
+    )
+
+    fun sendMessage(message: String, emergencyType: String? = null) {
         // Añade mensaje del usuario
         _messages.value = _messages.value + ChatMessage(message, isUserMe = true)
 
-        // Simula una respuesta automática después de 1 segundo
+        // Simula respuesta basada en el tipo de emergencia
         viewModelScope.launch {
             delay(1000)
-            _messages.value = _messages.value + ChatMessage("Hola, que deses reportar?", isUserMe = false)
+            val response = emergencyType?.let {
+                emergencyResponses[it] ?: "Hola, ¿en qué puedo ayudarte?"
+            } ?: "Hola, ¿qué deseas reportar?"
+
+            _messages.value = _messages.value + ChatMessage(response, isUserMe = false)
         }
     }
 }

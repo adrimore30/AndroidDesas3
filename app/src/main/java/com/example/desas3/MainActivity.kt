@@ -16,30 +16,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             Desas3Theme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    // 1. Crea el controlador de navegación
                     val navController = rememberNavController()
 
-                    // 2. Aquí se coloca el NavHost que contiene las pantallas
                     NavHost(
                         navController = navController,
-                        startDestination = "login" // 👈 pantalla inicial
+                        startDestination = "login"
                     ) {
-
-                        composable("login") {
-                            LoginScreen(navController)
-                        }
-                        composable("register") {
-                            RegisterScreen(navController)
-                        }
-                        composable("home") {
-                            HomeScreen(navController)
-                        }
-                        composable("Perfil") {
-                            PerfilUsuarioCompacto(navController)
-                        }
-                        composable("chat") {
-                            Desas3Chat(navController)
-                        }
+                        composable("login") { LoginScreen(navController) }
+                        composable("register") { RegisterScreen(navController) }
+                        composable("home") { HomeScreen(navController) }
+                        composable("perfil") { PerfilUsuarioCompacto(navController) }
+                        composable("chat") { Desas3Chat(navController) }
+                        composable("publicar") { PublicationScreen(navController) }
+                        composable("reportar") { /* Pantalla de reporte si es necesaria */ }
                     }
                 }
             }
