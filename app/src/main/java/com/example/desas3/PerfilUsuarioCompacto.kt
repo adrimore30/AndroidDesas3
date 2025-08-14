@@ -195,6 +195,7 @@ fun PerfilUsuarioCompacto(navController: NavHostController) {
                     mostrarExito = true
                 }) {
                     Text("Sí")
+
                 }
             },
             dismissButton = {
